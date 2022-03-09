@@ -1,19 +1,22 @@
-package com.micro.fornecedorservice.controller.errorHandler;
+package com.micro.produtoservice.errorhandler;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.expression.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 
-import java.text.ParseException;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +30,7 @@ public class ErroDeValidacaoHandler {
     private MessageSource messageSource;
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
+
     public List<String> handle(MethodArgumentNotValidException exception){
         List<String> erros = new ArrayList<>();
 
@@ -80,4 +84,5 @@ public class ErroDeValidacaoHandler {
         model.put("message",msg);
         return model;
     }
+
 }

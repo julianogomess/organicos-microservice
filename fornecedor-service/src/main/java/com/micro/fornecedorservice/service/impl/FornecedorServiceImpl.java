@@ -1,8 +1,9 @@
-package com.micro.fornecedorservice.service;
+package com.micro.fornecedorservice.service.impl;
 
 import com.micro.fornecedorservice.dto.FornecedorDTO;
 import com.micro.fornecedorservice.model.Fornecedor;
 import com.micro.fornecedorservice.repository.FornecedorRepository;
+import com.micro.fornecedorservice.service.FornecedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
