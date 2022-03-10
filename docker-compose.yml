@@ -2,6 +2,9 @@ version: '3.4'
 services:
   fornecedor-service:
     image: fornecedor-service
+    depends_on:
+      - kafka
+      - zookeeper
     restart: always
     build:
       context: ./fornecedor-service
@@ -16,6 +19,9 @@ services:
       - udemy-network
   produto-service:
     image: produto-service
+    depends_on:
+      - kafka
+      - zookeeper
     restart: always
     build:
       context: ./produto-service

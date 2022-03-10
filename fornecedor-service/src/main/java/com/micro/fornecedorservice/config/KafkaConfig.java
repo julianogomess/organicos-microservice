@@ -29,8 +29,8 @@ import java.util.Map;
 public class KafkaConfig {
 
     @Bean
-    public NewTopic kRequests() {
-        return TopicBuilder.name("kRequests")
+    public NewTopic requestFornecedor() {
+        return TopicBuilder.name("requestFornecedor")
                 .partitions(10)
                 .replicas(2)
                 .build();

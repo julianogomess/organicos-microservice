@@ -2,6 +2,7 @@ package com.micro.produtoservice.service.fornecedor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.micro.produtoservice.gateway.producer.FornecedorProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -23,15 +24,12 @@ import java.util.concurrent.TimeoutException;
 public class FornecedorServiceImpl implements FornecedorService {
 
     @Autowired
-    private ReplyingKafkaTemplate<String, String, String> kafkaTemplate;
+    private FornecedorProducer producer;
 
 
-    public FornecedorDTO execute(String cnpj) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
+    public FornecedorDTO execute(String cnpj) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        ProducerRecord<String, String> record = new ProducerRecord<>("kRequests", cnpj);
-        RequestReplyFuture<String, String, String> replyFuture = kafkaTemplate.sendAndReceive(record);
-        SendResult<String, String> sendResult = replyFuture.getSendFuture().get(10, TimeUnit.SECONDS);
-        ConsumerRecord<String, String> consumerRecord = replyFuture.get(10, TimeUnit.SECONDS);
+        ConsumerRecord<String,String> consumerRecord = producer.get(cnpj);
         FornecedorDTO listJsonRetorn = mapper.readValue(consumerRecord.value(), FornecedorDTO.class);
         return listJsonRetorn;
     }

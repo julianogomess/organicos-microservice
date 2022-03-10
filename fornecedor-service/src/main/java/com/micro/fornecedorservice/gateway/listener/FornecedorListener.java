@@ -19,7 +19,7 @@ public class FornecedorListener {
     @Autowired
     private FornecedorService fornecedorService;
 
-    @KafkaListener(id="server", topics = "kRequests")
+    @KafkaListener(id="server", topics = "requestFornecedor")
     @SendTo // use default replyTo expression
     public String listen(String in) throws JsonProcessingException {
         Fornecedor f = fornecedorService.findByCnpj(in);

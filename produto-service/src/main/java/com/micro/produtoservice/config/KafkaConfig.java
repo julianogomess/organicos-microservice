@@ -19,13 +19,7 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
-import org.springframework.kafka.requestreply.RequestReplyFuture;
-import org.springframework.kafka.support.SendResult;
 
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class KafkaConfig {
@@ -44,23 +38,23 @@ public class KafkaConfig {
             ConcurrentKafkaListenerContainerFactory<String, String> containerFactory) {
 
         ConcurrentMessageListenerContainer<String, String> repliesContainer =
-                containerFactory.createContainer("kReplies");
+                containerFactory.createContainer("replyFornecedor");
         repliesContainer.getContainerProperties().setGroupId("repliesGroup");
         repliesContainer.setAutoStartup(false);
         return repliesContainer;
     }
 
     @Bean
-    public NewTopic kRequests() {
-        return TopicBuilder.name("kRequests")
+    public NewTopic requestFornecedor() {
+        return TopicBuilder.name("requestFornecedor")
                 .partitions(10)
                 .replicas(2)
                 .build();
     }
 
     @Bean
-    public NewTopic kReplies() {
-        return TopicBuilder.name("kReplies")
+    public NewTopic replyFornecedor() {
+        return TopicBuilder.name("replyFornecedor")
                 .partitions(10)
                 .replicas(2)
                 .build();
