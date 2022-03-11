@@ -1,6 +1,8 @@
 package com.micro.produtoservice.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.micro.produtoservice.gateway.model.ItemPedido;
+import com.micro.produtoservice.gateway.model.ItemPedidoDTO;
 import com.micro.produtoservice.model.Produto;
 import com.micro.produtoservice.model.Tipo;
 import com.micro.produtoservice.repository.ProdutoRepository;
@@ -79,4 +81,18 @@ public class ProdutoServiceImpl implements ProdutoService {
         p.setEstoque(valor);
         return pr.save(p);
     }
+    @Override
+    public List<ItemPedido> transformarDTO(List<ItemPedidoDTO> lista) {
+        List<ItemPedido> items = new ArrayList<>();
+
+        for (ItemPedidoDTO i:lista){
+            Produto p = this.findById(i.getId());
+            ItemPedido item = new ItemPedido();
+            item.setProduto(p);
+            item.setQuantidade(i.getQuantidade());
+            items.add(item);
+        }
+        return items;
+    }
+
 }

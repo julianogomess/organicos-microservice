@@ -1,6 +1,7 @@
 package com.micro.produtoservice.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.micro.produtoservice.gateway.model.ItemPedido;
+import com.micro.produtoservice.gateway.model.ItemPedidoDTO;
 import com.micro.produtoservice.model.Produto;
 import com.micro.produtoservice.model.Tipo;
 
@@ -19,4 +20,5 @@ public interface ProdutoService {
     List<Produto> pesquisaPorNome(String nome);
     List<Produto> getHome();
     Produto atualizarEstoque(Produto p, Double valor);
+    List<ItemPedido> transformarDTO(List<ItemPedidoDTO> lista);
 }
