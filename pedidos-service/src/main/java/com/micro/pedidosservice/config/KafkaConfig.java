@@ -24,7 +24,7 @@ public class KafkaConfig {
             ConcurrentKafkaListenerContainerFactory<String, String> containerFactory) {
 
         ConcurrentMessageListenerContainer<String, String> repliesContainer =
-                containerFactory.createContainer("replyListaProduto");
+                containerFactory.createContainer("replyListaProduto","replyUser");
         repliesContainer.getContainerProperties().setGroupId("repliesGroup");
         repliesContainer.setAutoStartup(false);
         return repliesContainer;
@@ -41,6 +41,21 @@ public class KafkaConfig {
     @Bean
     public NewTopic replyListaProduto() {
         return TopicBuilder.name("replyListaProduto")
+                .partitions(10)
+                .replicas(2)
+                .build();
+    }
+    @Bean
+    public NewTopic requestUser() {
+        return TopicBuilder.name("requestUser")
+                .partitions(10)
+                .replicas(2)
+                .build();
+    }
+
+    @Bean
+    public NewTopic replyUser() {
+        return TopicBuilder.name("replyUser")
                 .partitions(10)
                 .replicas(2)
                 .build();

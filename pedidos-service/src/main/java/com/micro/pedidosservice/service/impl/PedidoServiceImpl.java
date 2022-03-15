@@ -93,15 +93,7 @@ public class PedidoServiceImpl implements PedidoService {
         return items;
     }
 
-    /*/todo arrumar essa funcao
-    @Override
-    public void atualizarEstoque(List<ItemPedido> items) {
-        Produto p ;
-        for (ItemPedido i: items){
-            p = i.getProduto();
-            produtoService.atualizarEstoque(p,i.getQuantidade());
-        }
-    }*/
+
 
     private double calValorDiario(List<Pedido> lista){
         double soma = 0;

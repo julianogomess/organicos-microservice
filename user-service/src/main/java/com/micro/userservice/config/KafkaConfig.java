@@ -1,4 +1,4 @@
-package com.micro.produtoservice.config;
+package com.micro.userservice.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
@@ -7,13 +7,12 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.support.SimpleKafkaHeaderMapper;
 import org.springframework.kafka.support.converter.MessagingMessageConverter;
 
-
 @Configuration
 public class KafkaConfig {
 
     @Bean
     public NewTopic requestListaProduto() {
-        return TopicBuilder.name("requestListaProduto")
+        return TopicBuilder.name("requestUser")
                 .partitions(10)
                 .replicas(2)
                 .build();

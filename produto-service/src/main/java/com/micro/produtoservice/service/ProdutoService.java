@@ -19,6 +19,8 @@ public interface ProdutoService {
     Produto findById(String id);
     List<Produto> pesquisaPorNome(String nome);
     List<Produto> getHome();
-    Produto atualizarEstoque(Produto p, Double valor);
+    Produto atualizarEstoqueProduto(Produto p, Double valor);
     List<ItemPedido> transformarDTO(List<ItemPedidoDTO> lista);
+
+    void atualizarEstoque(List<ItemPedido> items);
 }

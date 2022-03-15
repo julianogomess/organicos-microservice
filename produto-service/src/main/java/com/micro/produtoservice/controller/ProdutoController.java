@@ -115,7 +115,7 @@ public class ProdutoController {
             model.put("message","Produto não encontrado, id informado incorreto");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(model);
         }
-        p = produtoService.atualizarEstoque(p,valor);
+        p = produtoService.atualizarEstoqueProduto(p,valor);
         log.info("Estoque do produto atualizado com sucesso");
         model.put("message","Estoque atualizado com sucesso");
         model.put("object",p);

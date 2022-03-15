@@ -22,11 +22,16 @@ public class ProdutoListener {
     private ProdutoService produtoService;
 
     @KafkaListener(id = "server",topics = "requestListaProduto")
-    @SendTo
+    @SendTo("replyListaProduto")
     public String listen(String json) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         PedidoJson pedidoJson = mapper.readValue(json,PedidoJson.class);
         List<ItemPedido> lista = produtoService.transformarDTO(pedidoJson.getLista());
-        return mapper.writeValueAsString(RespJson.builder().lista(lista).build());
+        try {
+            return mapper.writeValueAsString(RespJson.builder().lista(lista).build());
+        }finally {
+            produtoService.atualizarEstoque(lista);
+        }
+
     }
 }

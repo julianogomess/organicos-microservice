@@ -5,6 +5,7 @@ import com.micro.pedidosservice.model.ItemPedido;
 import com.micro.pedidosservice.model.Pedido;
 import com.micro.pedidosservice.model.StatusPedido;
 import com.micro.pedidosservice.service.PedidoService;
+import com.micro.pedidosservice.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +25,9 @@ import java.util.Map;
 public class PedidoController {
     @Autowired
     PedidoService pedidoService;
-    //@Autowired
-    //CustomUserService userService;
+
+    @Autowired
+    UserService userService;
 
 
     @ApiOperation(value = "Retorna todos os produtos")
@@ -75,20 +77,22 @@ public class PedidoController {
     @PostMapping(value = "/cadastro/{cpf}")
     public ResponseEntity cadastroPedido(@RequestBody List<ItemPedidoDTO> lista, @PathVariable String cpf) throws Exception {
         Map<Object, Object> model = new HashMap<>();
-        List<ItemPedido> items  = pedidoService.transformarDTO(lista);
         log.info("Cadastro de pedido iniciado, busca do usuário por email");
-        //todo check cpf
+        if (!userService.existByCpf(cpf)){
+            log.info("Usuário não encontrado por cpf");
+            model.put("message","Usuário não encontrado pelo CPF, digite um valido!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(model);
+        }
+        log.info("CPF VALIDADO");
+        List<ItemPedido> items  = pedidoService.transformarDTO(lista);
+
         if (!checkPedido(items)){
             log.info("Houve um problema com estoque do produto");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(returnMsg(items));
         }
         Pedido pedido = pedidoService.save(items, cpf);
         log.info("Pedido cadastrado com sucesso");
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
-        }finally {
-            //pedidoService.atualizarEstoque(items);
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
     }
 
     @ApiOperation(value = "Deletar pedido por id")
