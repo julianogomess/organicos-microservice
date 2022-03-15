@@ -32,6 +32,5 @@ public class ProdutoListener {
         }finally {
             produtoService.atualizarEstoque(lista);
         }
-
     }
 }
